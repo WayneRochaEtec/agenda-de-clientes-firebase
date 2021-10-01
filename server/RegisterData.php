@@ -9,6 +9,9 @@ class RegisterData {
     private $note;
 
     public function __construct(){
+        $_GET   = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+        $_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
         $this->setName((isset($_POST["name"])) ? $_POST["name"] : "");
         $this->setPhone((isset($_POST["phone"])) ? $_POST["phone"] : "");
         $this->setOrigin((isset($_POST["origin"])) ? $_POST["origin"] : "");
