@@ -47,15 +47,16 @@ aria-current="page">CADASTRO</a></li>
                         $controller = new Controller();
                         $clients = $controller->getAllClients();
                         $clientNumber = 0;
+
                         foreach ($clients as $client){
                             $clientNumber++;
-                            
+
                             echo '<tr>';
                                 echo "<th scope='row'>{$clientNumber}</th>";
                                 echo "<td class='client-name'>{$client['nome']}</td>";
                                 echo "<td class='client-phone'>{$client['telefone']}</td>";
                                 echo "<td class='client-origin'>{$client['origem']}</td>";
-                                echo "<td class='client-date'>{$client['data_contato']}</td>";
+                                echo "<td class='client-date'>{$controller->convertDateToLocalString($client['data_contato'])}</td>";
                                 echo "<td class='client-note'>{$client['observação']}</td>";
                                 echo "<td>";
                                     echo "<button type='button' class='btn btn-outline-primary'>editar</button>";
@@ -63,7 +64,6 @@ aria-current="page">CADASTRO</a></li>
                                 echo "</td>";
                             echo "</tr>";
                         }
-
                     ?>
                 </tbody>
             </table>
@@ -81,6 +81,10 @@ aria-current="page">CADASTRO</a></li>
         }
         .client-name{
             text-transform: capitalize;
+        }
+        .client-note{
+            white-space: nowwrap;
+            font-size: .8em;
         }
         @media screen and (orientation: landscape){
             main::-webkit-scrollbar{

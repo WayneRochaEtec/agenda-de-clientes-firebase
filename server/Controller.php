@@ -22,6 +22,11 @@ class Controller{
         return $client;
     }
 
+    public function convertDateToLocalString($date){
+        $formatedDate = date('d-m-Y', strtotime($date));
+        return str_replace("-", "/", $formatedDate);
+    }
+
     public function redirect($sucess){
         header("location: " . $_SERVER["HTTP_REFERER"] . (($sucess) ? "#success" : "#fail"));
         die();

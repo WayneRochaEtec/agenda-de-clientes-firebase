@@ -77,16 +77,24 @@
         </main>
     </div>
     <script>
-        const uri = new DocumentFragment().baseURI;
-        const fragmentIndex = uri.search("#");
-        if (fragmentIndex !== -1){
-            const fragment = uri.slice(fragmentIndex + 1, uri.length);
-            const flagType = (fragment == 'success') ? "success" : "danger";
-            const flagMessage = (fragment == 'success') ? "Cliente cadastrado com sucesso!" : "Ocorreu um erro ao cadastrar";
-            const alertElement = `<div class="container alert alert-${flagType}" role="alert">${flagMessage}</div>`;
-            
-            document.querySelector('#status-flag').outerHTML = alertElement;
+        function showFlag(){
+            const uri = new DocumentFragment().baseURI;
+            const fragmentIndex = uri.search("#");
+            if (fragmentIndex !== -1){
+                const fragment = uri.slice(fragmentIndex + 1, uri.length);
+                const flagType = (fragment == 'success') ? "success" : "danger";
+                const flagMessage = (fragment == 'success') ? "Cliente cadastrado com sucesso!" : "Ocorreu um erro ao cadastrar";
+                const alertElement = `<div class="container alert alert-${flagType}" role="alert">${flagMessage}</div>`;
+                
+                document.querySelector('#status-flag').outerHTML = alertElement;
+            }
         }
+        function setCurrentDate(){
+            document.querySelector('#dateInput').valueAsDate = new Date();
+        }
+
+        showFlag();
+        setCurrentDate();
     </script>
 </body>
 
