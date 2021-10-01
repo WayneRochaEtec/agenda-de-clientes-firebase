@@ -22,10 +22,8 @@
                 </a>
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link"
-                            aria-current="page">CADASTRO</a></li>
+aria-current="page">CADASTRO</a></li>
                     <li class="nav-item"><a href="../consultar/index.html" class="nav-link active">CONSULTA</a></li>
-                    <li class="nav-item"><a href="../editar/index.html" class="nav-link">EDIÇÃO</a></li>
-                    <li class="nav-item"><a href="../deletar/index.html" class="nav-link">DELETAR</a></li>
                 </ul>
             </header>
         </div>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
     <title>cadastrar</title>
 </head>
-
 <body>
     <div class="container-flex">
         <div class="container">
@@ -26,13 +21,11 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link" aria-current="page">CADASTRO</a></li>
                     <li class="nav-item"><a href="../consultar/index.html" class="nav-link">CONSULTA</a></li>
-                    <li class="nav-item"><a href="../editar/index.html" class="nav-link active">EDIÇÃO</a></li>
-                    <li class="nav-item"><a href="../deletar/index.html" class="nav-link">DELETAR</a></li>
                 </ul>
             </header>
         </div>
         <aside class="container">
-            <h1 class="lead">Editar agendamentos de potenciais clientes</h1>
+            <h1 class="lead">Excluir agendamento de potenciais clientes</h1>
         </aside>
         <main class="container" style="margin: 10vh auto;">
             <form action="" method="post">
@@ -75,11 +68,10 @@
                 </fieldset>
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">buscar</button>
-                    <button class="btn btn-primary" type="submit">editar</button>
+                    <button class="btn btn-primary" type="submit">excluir</button>
                 </div>
             </form>
         </main>
     </div>
 </body>
-
 </html>
