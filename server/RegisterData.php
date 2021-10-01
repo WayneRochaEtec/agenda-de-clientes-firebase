@@ -1,4 +1,5 @@
 <?php
+require_once 'Controller.php';
 
 class RegisterData {
     private $name;
@@ -13,6 +14,20 @@ class RegisterData {
         $this->setOrigin((isset($_POST["origin"])) ? $_POST["origin"] : "");
         $this->setContact_date((isset($_POST["contact_date"])) ? $_POST["contact_date"] : "");
         $this->setNote((isset($_POST["note"])) ? $_POST["note"] : "");
+
+        $controller = new Controller();
+        try {
+            $controller->register(
+                $this->getName(),
+                $this->getPhone(),
+                $this->getOrigin(),
+                $this->getContact_date(),
+                $this->getNote()
+            );
+            $controller->redirect(TRUE);
+        } catch (\Throwable $e){
+            $controller->redirect(FALSE);
+        }
     }
 
     public function setName($name){
@@ -56,4 +71,5 @@ class RegisterData {
     }
 }
 
+new RegisterData();
 ?>

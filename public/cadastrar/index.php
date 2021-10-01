@@ -20,9 +20,9 @@
                     <span class="fs-4">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link active"
+                    <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link active"
                             aria-current="page">CADASTRO</a></li>
-                    <li class="nav-item"><a href="../consultar/index.html" class="nav-link">CONSULTA</a></li>
+                    <li class="nav-item"><a href="../consultar/index.php" class="nav-link">CONSULTA</a></li>
                 </ul>
             </header>
         </div>
@@ -32,7 +32,7 @@
         <div id="status-flag">
         </div>
         <main class="container" style="margin: 10vh auto;">
-            <form action="../../server/RegisterController.php" method="post">
+            <form action="../../server/RegisterData.php" method="post">
                 <fieldset>
                     <div class="mb-3">
                         <label for="nameInput" class="form-label">nome<sup>*</sup></label>
@@ -84,8 +84,7 @@
             const flagType = (fragment == 'success') ? "success" : "danger";
             const flagMessage = (fragment == 'success') ? "Cliente cadastrado com sucesso!" : "Ocorreu um erro ao cadastrar";
             const alertElement = `<div class="container alert alert-${flagType}" role="alert">${flagMessage}</div>`;
-
-            console.log(fragment);
+            
             document.querySelector('#status-flag').outerHTML = alertElement;
         }
     </script>

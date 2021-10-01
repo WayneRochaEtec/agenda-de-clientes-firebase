@@ -21,9 +21,9 @@
                     <span class="fs-4">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link"
+                    <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link"
 aria-current="page">CADASTRO</a></li>
-                    <li class="nav-item"><a href="../consultar/index.html" class="nav-link active">CONSULTA</a></li>
+                    <li class="nav-item"><a href="../consultar/index.php" class="nav-link active">CONSULTA</a></li>
                 </ul>
             </header>
         </div>
@@ -41,18 +41,30 @@ aria-current="page">CADASTRO</a></li>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Wayne André</td>
-                        <td class="phone">(11) 4002-8922</td>
-                        <td class="origin">Fixo</td>
-                        <td class="date">13/07/2019</td>
-                        <td class="obs"></td>
-                        <td>
-                            <button type="button" class="btn btn-outline-primary">editar</button>
-                            <button type="button" class="btn btn-outline-primary">excluir</button>
-                        </td>
-                    </tr>
+                    <?php
+                        require_once '../../server/Controller.php';
+
+                        $controller = new Controller();
+                        $clients = $controller->getAllClients();
+                        $clientNumber = 0;
+                        foreach ($clients as $client){
+                            $clientNumber++;
+                            
+                            echo '<tr>';
+                                echo "<th scope='row'>{$clientNumber}</th>";
+                                echo "<td class='client-name'>{$client['nome']}</td>";
+                                echo "<td class='client-phone'>{$client['telefone']}</td>";
+                                echo "<td class='client-origin'>{$client['origem']}</td>";
+                                echo "<td class='client-date'>{$client['data_contato']}</td>";
+                                echo "<td class='client-note'>{$client['observação']}</td>";
+                                echo "<td>";
+                                    echo "<button type='button' class='btn btn-outline-primary'>editar</button>";
+                                    echo "<button type='button' class='btn btn-outline-primary'>excluir</button>";
+                                echo "</td>";
+                            echo "</tr>";
+                        }
+
+                    ?>
                 </tbody>
             </table>
         </main>
@@ -66,6 +78,9 @@ aria-current="page">CADASTRO</a></li>
         }
         :is(.phone, .origin, .date, .obs):empty::after{
             content: "--";
+        }
+        .client-name{
+            text-transform: capitalize;
         }
         @media screen and (orientation: landscape){
             main::-webkit-scrollbar{
