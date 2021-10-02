@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="../statusFlag.js"></script>
     <title>cadastrar</title>
 </head>
 <body>
@@ -26,12 +27,12 @@
                 </ul>
             </header>
         </div>
+        <div id="status-flag">
+        </div>
         <aside class="container">
             <h1 class="lead">Cadastrar agendamento de potenciais clientes</h1>
         </aside>
-        <div id="status-flag">
-        </div>
-        <main class="container" style="margin: 10vh auto;">
+        <main class="container" style="margin: 5vh auto;">
             <form action="../../server/RegisterData.php" method="post">
                 <fieldset>
                     <div class="mb-3">
@@ -77,24 +78,16 @@
         </main>
     </div>
     <script>
-        function showFlag(){
-            const uri = new DocumentFragment().baseURI;
-            const fragmentIndex = uri.search("#");
-            if (fragmentIndex !== -1){
-                const fragment = uri.slice(fragmentIndex + 1, uri.length);
-                const flagType = (fragment == 'success') ? "success" : "danger";
-                const flagMessage = (fragment == 'success') ? "Cliente cadastrado com sucesso!" : "Ocorreu um erro ao cadastrar";
-                const alertElement = `<div class="container alert alert-${flagType}" role="alert">${flagMessage}</div>`;
-                
-                document.querySelector('#status-flag').outerHTML = alertElement;
-            }
-        }
         function setCurrentDate(){
             document.querySelector('#dateInput').valueAsDate = new Date();
         }
 
-        showFlag();
         setCurrentDate();
+        showFlag({
+            succesMsg: "Cliente cadastrado com sucesso!",
+            failMsg: "Ocorreu um erro ao cadastrar",
+            element: document.querySelector('#status-flag')
+        });
     </script>
 </body>
 

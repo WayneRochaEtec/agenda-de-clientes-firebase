@@ -12,19 +12,21 @@ class Controller{
         $this->db->register($name, $phone, $origin, $contact_date, $note);
     }
 
+    public function update($id, $name, $phone, $origin, $contact_date, $note){ 
+        $this->db->update($id, $name, $phone, $origin, $contact_date, $note);
+    }
     public function getAllClients(){
         $clients = $this->db->selectAllClients();
         return $clients;
     }
 
-    public function getAllClientById($id){
-        $client = $this->db->selectClient();
-        return $client;
+    public function getClient($id){
+        $client = $this->db->selectClient($id);
+        return $client[0];
     }
 
-    public function convertDateToLocalString($date){
-        $formatedDate = date('d-m-Y', strtotime($date));
-        return str_replace("-", "/", $formatedDate);
+    public function deleteClient($id){
+        $this->db->deleteClient($id);
     }
 
     public function redirect($sucess){

@@ -43,27 +43,32 @@ aria-current="page">CADASTRO</a></li>
                 <tbody>
                     <?php
                         require_once '../../server/Controller.php';
+                        require_once '../../server/Utils.php';
 
                         $controller = new Controller();
+                        $utils = new Utils();
                         $clients = $controller->getAllClients();
                         $clientNumber = 0;
 
                         foreach ($clients as $client){
                             $clientNumber++;
+                            $editLink = "../editar/?id={$client['id']}";
+                            $deleteLink = "../../server/DeleteData.php?id={$client['id']}";
 
                             echo '<tr>';
                                 echo "<th scope='row'>{$clientNumber}</th>";
                                 echo "<td class='client-name'>{$client['nome']}</td>";
                                 echo "<td class='client-phone'>{$client['telefone']}</td>";
                                 echo "<td class='client-origin'>{$client['origem']}</td>";
-                                echo "<td class='client-date'>{$controller->convertDateToLocalString($client['data_contato'])}</td>";
+                                echo "<td class='client-date'>{$utils->convertDateToLocalString($client['data_contato'])}</td>";
                                 echo "<td class='client-note'>{$client['observação']}</td>";
                                 echo "<td>";
-                                    echo "<button type='button' class='btn btn-outline-primary'>editar</button>";
-                                    echo "<button type='button' class='btn btn-outline-primary'>excluir</button>";
+                                    echo "<button type='button' class='btn btn-outline-primary'><a href='{$editLink}'>editar</a></button>";
+                                    echo "<button type='button' class='btn btn-outline-primary'><a href='{$deleteLink}'>excluir</a></button>";
                                 echo "</td>";
                             echo "</tr>";
                         }
+
                     ?>
                 </tbody>
             </table>
@@ -83,8 +88,14 @@ aria-current="page">CADASTRO</a></li>
             text-transform: capitalize;
         }
         .client-note{
-            white-space: nowwrap;
+            white-space: nowrap;
             font-size: .8em;
+        }
+        tr{
+            transition: background-color ease-in-out .3s;
+        }
+        tr:hover {
+            background-color: rgb(240, 240, 240);
         }
         @media screen and (orientation: landscape){
             main::-webkit-scrollbar{

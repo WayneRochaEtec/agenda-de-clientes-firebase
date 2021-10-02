@@ -1,3 +1,13 @@
+<?php
+
+require_once '../../server/Controller.php';
+
+$controller = new Controller();
+$id = intval($_GET["id"]);
+$client = $controller->getClient($id);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -10,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
+        <script src="../statusFlag.js"></script>
     <title>cadastrar</title>
 </head>
 
@@ -24,60 +35,68 @@
                     <span class="fs-4">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link" aria-current="page">CADASTRO</a></li>
-                    <li class="nav-item"><a href="../consultar/index.html" class="nav-link">CONSULTA</a></li>
+                    <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link" aria-current="page">CADASTRO</a></li>
+                    <li class="nav-item"><a href="../consultar/index.php" class="nav-link">CONSULTA</a></li>
                 </ul>
             </header>
         </div>
+        <div id="status-flag"></div>
         <aside class="container">
             <h1 class="lead">Editar agendamentos de potenciais clientes</h1>
         </aside>
-        <main class="container" style="margin: 10vh auto;">
-            <form action="" method="post">
+        <main class="container" style="margin: 5vh auto;">
+            <form action="../../server/UpdateData.php" method="post" >
+                <input type="number" name="id" id="idHideInput" style="display: none;" value="<?php echo $_GET["id"] ?>">
                 <fieldset>
                     <div class="mb-3">
                         <label for="nameInput" class="form-label">nome</label>
-                        <input type="text" class="form-control" id="nameInput" placeholder="Nome completo" autocapitalize="words" style="text-transform: capitalize;">
+                        <input name="name" type="text" class="form-control" id="nameInput" placeholder="Nome completo" autocapitalize="words" style="text-transform: capitalize;" value="<?php echo $client["nome"] ?>">
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="mb-3">
                         <label for="phoneInput" class="form-label">telefone</label>
-                        <input type="tel" class="form-control" id="phoneInput" placeholder="Telefone ou celular">
+                        <input name="phone" type="tel" class="form-control" id="phoneInput" placeholder="Telefone ou celular" value="<?php echo $client["telefone"] ?>">
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="mb-3">
                         <label for="originInput" class="form-label">origem</label>
-                        <select class="form-select" id="originInput" aria-label="Selecione uma origem">
-                            <option value="cel" selected>celular</option>
-                            <option value="tel">fixo</option>
-                            <option value="whatsapp">whatsapp</option>
-                            <option value="facebook">facebook</option>
-                            <option value="instagram">instagram</option>
-                            <option value="gmn">Google Meu Negocio</option>
+                        <select name="origin" class="form-select" id="originInput" aria-label="Selecione uma origem">
+                            <option <?php echo ($client["origem"] == "cel") ? "selected" : "" ?> value="cel">celular</option>
+                            <option <?php echo ($client["origem"] == "fixo") ? "selected" : "" ?> value="tel">fixo</option>
+                            <option <?php echo ($client["origem"] == "whatsapp") ? "selected" : "" ?> value="whatsapp">whatsapp</option>
+                            <option <?php echo ($client["origem"] == "facebook") ? "selected" : "" ?> value="facebook">facebook</option>
+                            <option <?php echo ($client["origem"] == "instagram") ? "selected" : "" ?> value="instagram">instagram</option>
+                            <option <?php echo ($client["origem"] == "gmn") ? "selected" : "" ?> value="gmn">Google Meu Negocio</option>
                         </select>
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="mb-3">
                         <label for="dateInput" class="form-label">data de contato</label>
-                        <input type="date" class="form-control" id="dateInput">
+                        <input name="contact_date" type="date" class="form-control" id="dateInput" value="<?php echo $client["data_contato"] ?>">
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="mb-3">
                         <label for="obsInput" class="form-label">observações</label>
-                        <textarea class="form-control" id="obsInput" rows="4" maxlength="250"></textarea>
+                        <textarea name="note" class="form-control" id="obsInput" rows="4" maxlength="250"><?php echo $client["observação"] ?></textarea>
                       </div>
                 </fieldset>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit">buscar</button>
                     <button class="btn btn-primary" type="submit">editar</button>
                 </div>
             </form>
         </main>
     </div>
+    <script>
+        showFlag({
+            succesMsg: "Dados editados com sucesso!",
+            failMsg: "Ocorreu um erro ao editar",
+            element: document.querySelector('#status-flag')
+        });
+    </script>
 </body>
 
 </html>

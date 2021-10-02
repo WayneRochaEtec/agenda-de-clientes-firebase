@@ -1,4 +1,5 @@
 <?php
+require_once 'Utils.php';
 
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -16,6 +17,10 @@ class Database {
 
     private function connect(){
         $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        if ($this->conn->connect_error){
+            $Utils = new Utils();
+            $Utils->createErrorLog();
+        }
     }
 
     public function register($name, $phone, $origin, $contact_date, $note){
@@ -23,7 +28,9 @@ class Database {
 
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssss", $name, $phone, $origin, $contact_date, $note);
-        return $stmt->execute();
+        $status = $stmt->execute();
+        $stmt->close();
+        return $status;
     }
 
     public function selectAllClients(){
@@ -34,12 +41,30 @@ class Database {
     }
 
     public function selectClient($id){
-        $query = "SELECT `id`, `nome`, `telefone`, `origem`, `data_contato`, `observação` FROM `agendamentos` WHERE `id` = ?;";
+        $query = "SELECT `id`, `nome`, `telefone`, `origem`, `data_contato`, `observação` FROM `agendamentos` WHERE `id` = {$id};";
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id);
+        $stmt = $this->conn->query($query);
         return $stmt->fetch_all(MYSQLI_ASSOC);
     }
     
+    public function deleteClient($id){
+        $query = "DELETE FROM `agendamentos` WHERE `id` = ?;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $status = $stmt->execute();
+        $stmt->close();
+        return $status;
+    }
+
+    public function update($id, $name, $phone, $origin, $contact_date, $note){
+        $query = "UPDATE `agendamentos` SET `nome`=?,`telefone`=?,`origem`=?,`data_contato`=?,`observação`=? WHERE `id`=?;";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sssssi", $name, $phone, $origin, $contact_date, $note, $id);
+        $status = $stmt->execute();
+        $stmt->close();
+        return $status;
+    }
 }
 ?>
