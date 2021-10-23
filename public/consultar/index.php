@@ -18,7 +18,7 @@
                     <svg class="bi me-2" width="40" height="32">
                         <use xlink:href="#bootstrap"></use>
                     </svg>
-                    <span class="fs-4" style="margin-right: 100px;">Clientes</span>
+                    <span class="fs-4">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link"
@@ -84,18 +84,6 @@ aria-current="page">CADASTRO</a></li>
         :is(.phone, .origin, .date, .obs):empty::after{
             content: "--";
         }
-        tr{
-            transition: background-color ease-in-out .3s;
-        }
-        tr:hover {
-            background-color: rgb(240, 240, 240);
-        }
-        a[type="button"]{
-            text-decoration: none;
-        }
-        a[type="button"]:hover{
-            color: #fff;
-        }
         .client-name{
             text-transform: capitalize;
         }
@@ -103,7 +91,12 @@ aria-current="page">CADASTRO</a></li>
             white-space: nowrap;
             font-size: .8em;
         }
-        
+        tr{
+            transition: background-color ease-in-out .3s;
+        }
+        tr:hover {
+            background-color: rgb(240, 240, 240);
+        }
         @media screen and (orientation: landscape){
             main::-webkit-scrollbar{
                 display: none;
