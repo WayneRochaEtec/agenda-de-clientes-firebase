@@ -104,7 +104,7 @@
                     <td>${data.name.toLowerCase()}</td>
                     <td>${data.phone}</td>
                     <td>${data.origin}</td>
-                     <td>${new Date(data.contact_date).toLocaleDateString()}</td>
+                     <td>${new Date(data.contact_date).toLocaleDateString('pt-BR', {timeZone: 'UTC'})}</td>
                     <td>${data.note}</td>
                     <td>
                         <button data-firebase-doc="${data.id}" type="button" class="btn btn-outline-primary edit_client_btn">editar</button>

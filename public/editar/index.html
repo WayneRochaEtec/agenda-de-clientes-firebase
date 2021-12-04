@@ -84,18 +84,18 @@
         const db = new Database();
 
         (() => {
+            const uri = new DocumentFragment().baseURI;
+            const fragmentIndex = uri.search("#");
+
             db.setErrorFc(() => showFlag({
                 failMessage: "Cliente não encontrado",
                 successful: false,
                 element: document.querySelector('#status-flag')
             }));
-
-            const uri = new DocumentFragment().baseURI;
-            const fragmentIndex = uri.search("#");
-
             if (fragmentIndex !== -1){
                 const urlDocID = uri.slice(fragmentIndex + 1, uri.length);
                 const client = db.getClient(urlDocID);
+                
                 client.then(data => {
                     const nameInput = document.getElementById('nameInput');
                     const phoneInput = document.getElementById('phoneInput');
