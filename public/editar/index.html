@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
-        <script src="../statusFlag.js"></script>
-    <title>cadastrar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../firebase.js"></script>
+    <script src="../database.js"></script>
+    <script src="../statusFlag.js"></script>
+    <title>seus clientes</title>
 </head>
 
 <body>
@@ -25,8 +27,8 @@
                     <span class="fs-4" style="margin-right: 100px;">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link" aria-current="page">CADASTRO</a></li>
-                    <li class="nav-item"><a href="../consultar/index.php" class="nav-link">CONSULTA</a></li>
+                    <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link" aria-current="page">CADASTRO</a></li>
+                    <li class="nav-item"><a href="../consultar/index.html" class="nav-link">CONSULTA</a></li>
                 </ul>
             </header>
         </div>
@@ -35,57 +37,108 @@
             <h1 class="lead">Editar agendamentos de potenciais clientes</h1>
         </aside>
         <main class="container" style="margin: 5vh auto;">
-            <form action="../../server/UpdateData.php" method="post" >
-                <input type="number" name="id" id="idHideInput" style="display: none;" value="<?php echo $_GET["id"] ?>">
-                <fieldset>
-                    <div class="mb-3">
-                        <label for="nameInput" class="form-label">nome</label>
-                        <input name="name" type="text" class="form-control" id="nameInput" placeholder="Nome completo" autocapitalize="words" style="text-transform: capitalize;" value="<?php echo $client["nome"] ?>">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="mb-3">
-                        <label for="phoneInput" class="form-label">telefone</label>
-                        <input name="phone" type="tel" class="form-control" id="phoneInput" placeholder="Telefone ou celular" value="<?php echo $client["telefone"] ?>">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="mb-3">
-                        <label for="originInput" class="form-label">origem</label>
-                        <select name="origin" class="form-select" id="originInput" aria-label="Selecione uma origem">
-                            <option value="cel">celular</option>
-                            <option value="tel">fixo</option>
-                            <option value="whatsapp">whatsapp</option>
-                            <option value="facebook">facebook</option>
-                            <option value="instagram">instagram</option>
-                            <option |value="gmn">Google Meu Negocio</option>
-                        </select>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="mb-3">
-                        <label for="dateInput" class="form-label">data de contato</label>
-                        <input name="contact_date" type="date" class="form-control" id="dateInput" value="<?php echo $client["data_contato"] ?>">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="mb-3">
-                        <label for="obsInput" class="form-label">observações</label>
-                        <textarea name="note" class="form-control" id="obsInput" rows="4" maxlength="250"><?php echo $client["observação"] ?></textarea>
-                      </div>
-                </fieldset>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">editar</button>
+            <input type="number" name="id" id="idHideInput" style="display: none;">
+            <fieldset>
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">nome</label>
+                    <input name="name" type="text" class="form-control" id="nameInput" placeholder="Nome completo" autocapitalize="words" style="text-transform: capitalize;">
                 </div>
-            </form>
+            </fieldset>
+            <fieldset>
+                <div class="mb-3">
+                    <label for="phoneInput" class="form-label">telefone</label>
+                    <input name="phone" type="tel" class="form-control" id="phoneInput" placeholder="Telefone ou celular">
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="mb-3">
+                    <label for="originInput" class="form-label">origem</label>
+                    <select name="origin" class="form-select" id="originInput" aria-label="Selecione uma origem">
+                        <option value="cel">celular</option>
+                        <option value="tel">fixo</option>
+                        <option value="whatsapp">whatsapp</option>
+                        <option value="facebook">facebook</option>
+                        <option value="instagram">instagram</option>
+                        <option value="gmn">Google Meu Negocio</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="mb-3">
+                    <label for="dateInput" class="form-label">data de contato</label>
+                    <input name="contact_date" type="date" class="form-control" id="dateInput">
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="mb-3">
+                    <label for="obsInput" class="form-label">observações</label>
+                    <textarea name="note" class="form-control" id="obsInput" rows="4" maxlength="250"></textarea>
+                    </div>
+            </fieldset>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit" id="confirm-edition-btn">editar</button>
+            </div>
         </main>
     </div>
     <script>
-        showFlag({
-            succesMsg: "Dados editados com sucesso!",
-            failMsg: "Ocorreu um erro ao editar",
-            element: document.querySelector('#status-flag')
-        });
+        const db = new Database();
+
+        (() => {
+            db.setErrorFc(() => showFlag({
+                failMessage: "Cliente não encontrado",
+                successful: false,
+                element: document.querySelector('#status-flag')
+            }));
+
+            const uri = new DocumentFragment().baseURI;
+            const fragmentIndex = uri.search("#");
+
+            if (fragmentIndex !== -1){
+                const urlDocID = uri.slice(fragmentIndex + 1, uri.length);
+                const client = db.getClient(urlDocID);
+                client.then(data => {
+                    const nameInput = document.getElementById('nameInput');
+                    const phoneInput = document.getElementById('phoneInput');
+                    const originInput = document.getElementById('originInput');
+                    const contact_dateInput = document.getElementById('dateInput');
+                    const formattedDate = new Date(data.contact_date).toISOString().slice(0, 10);
+                    const noteInput = document.getElementById('obsInput');
+
+                    nameInput.value = data.name;
+                    phoneInput.value = data.phone;
+                    originInput.value = data.origin;
+                    contact_dateInput.value = formattedDate;
+                    noteInput.value = data.note;
+
+                    document.getElementById('confirm-edition-btn').addEventListener('click', () => {
+                        db.setSuccessFc(() => showFlag({
+                            successMessage: "Informações foram alteradas!",
+                            successful: true,
+                            element: document.querySelector('#status-flag')
+                        }));
+                        db.setErrorFc(() => showFlag({
+                            failMessage: "Ocorreu algum erro ao atualizar!",
+                            successful: false,
+                            element: document.querySelector('#status-flag')
+                        }));
+
+                        db.update(
+                            urlDocID,
+                            nameInput.value,
+                            phoneInput.value,
+                            originInput.value,
+                            new Date(contact_dateInput.value).getTime(),
+                            noteInput.value
+                        );
+                    });
+                });
+            }
+        })();
+
+        (() =>{
+
+        })();
+
     </script>
 </body>
 

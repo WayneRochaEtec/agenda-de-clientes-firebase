@@ -7,6 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../firebase.js"></script>
+    <script src="../database.js"></script>
+    <script src="../statusFlag.js"></script>
     <title>cadastrar</title>
 </head>
 
@@ -21,13 +29,14 @@
                     <span class="fs-4">Clientes</span>
                 </a>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="../cadastrar/index.php" class="nav-link"
-aria-current="page">CADASTRO</a></li>
-                    <li class="nav-item"><a href="../consultar/index.php" class="nav-link active">CONSULTA</a></li>
+                    <li class="nav-item"><a href="../cadastrar/index.html" class="nav-link"
+                            aria-current="page">CADASTRO</a></li>
+                    <li class="nav-item"><a href="../consultar/index.html" class="nav-link active">CONSULTA</a></li>
                 </ul>
             </header>
         </div>
         <main class="container align-center">
+            <div id="status-flag"></div>
             <table class="table">
                 <thead>
                     <tr>
@@ -41,39 +50,113 @@ aria-current="page">CADASTRO</a></li>
                     </tr>
                 </thead>
                 <tbody>
-                     
                 </tbody>
             </table>
         </main>
     </div>
     <style>
-        body{
+        body {
             overflow-x: hidden;
         }
-        main{
+
+        main {
             overflow-x: scroll;
         }
-        :is(.phone, .origin, .date, .obs):empty::after{
+
+        :is(.phone, .origin, .date, .obs):empty::after {
             content: "--";
         }
-        .client-name{
+
+        .client-name {
             text-transform: capitalize;
         }
-        .client-note{
+
+        .client-note {
             white-space: nowrap;
             font-size: .8em;
         }
-        tr{
+
+        tr {
             transition: background-color ease-in-out .3s;
         }
+
         tr:hover {
             background-color: rgb(240, 240, 240);
         }
-        @media screen and (orientation: landscape){
-            main::-webkit-scrollbar{
+
+        @media screen and (orientation: landscape) {
+            main::-webkit-scrollbar {
                 display: none;
-            }   
+            }
         }
     </style>
+
+    <script>
+        const db = new Database();
+        let rowNumber = 0;
+        let checkBtn = false;
+
+        function insertRow(data) {
+            rowNumber++;
+            const table = document.querySelector('tbody');
+            const row = `
+                <tr>
+                    <td>${rowNumber}</td>
+                    <td>${data.name.toLowerCase()}</td>
+                    <td>${data.phone}</td>
+                    <td>${data.origin}</td>
+                     <td>${new Date(data.contact_date).toLocaleDateString()}</td>
+                    <td>${data.note}</td>
+                    <td>
+                        <button data-firebase-doc="${data.id}" type="button" class="btn btn-outline-primary edit_client_btn">editar</button>
+                        <button data-firebase-doc="${data.id}" type="button" class="btn btn-outline-danger delete_client_btn">excluir</button>
+                    </td>
+                </tr>`;
+
+            table.innerHTML += row;
+        }
+
+        function addEventListeners(){
+            if (checkBtn) return;
+
+            document.querySelectorAll('.delete_client_btn').forEach((btn) => {
+                btn.addEventListener('click', ({target}) => {
+                    const docID = target.getAttribute('data-firebase-doc');
+                    db.deleteClient(docID);
+                    document.querySelector('tbody').innerHTML = '';
+                    fillTable();
+                });
+            });
+            document.querySelectorAll('.edit_client_btn').forEach((btn) => {
+                btn.addEventListener('click', ({target}) => {
+                    const docID = target.getAttribute('data-firebase-doc');
+                    window.open('../editar/index.html#'+docID);
+                });
+            });
+
+            checkBtn = true;
+        }
+
+        function fillTable(){
+            const clients = db.getClientsArray();
+            clients.then(clients => {
+                clients.forEach(client => insertRow(client));
+                addEventListeners();
+            });
+        }
+
+        fillTable();
+        db.setSuccessFc(() => showFlag({
+            successMessage: "Cliente deletado com sucesso!",
+            successful: true,
+            element: document.querySelector('#status-flag')
+        }));
+        db.setErrorFc(() => showFlag({
+            failMessage: "Ocorreu um erro ao deleter o cliente",
+            successful: false,
+            element: document.querySelector('#status-flag')
+        }));
+    </script>
 </body>
+
 </html>
