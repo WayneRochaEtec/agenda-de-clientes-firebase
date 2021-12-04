@@ -7,5 +7,5 @@ function showFlag({successMessage="success", failMessage="fail", successful, ele
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`;
     
-    element.outerHTML = alertElement;
+    element.innerHTML = alertElement;
 }

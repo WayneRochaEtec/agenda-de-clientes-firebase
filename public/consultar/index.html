@@ -94,7 +94,6 @@
     <script>
         const db = new Database();
         let rowNumber = 0;
-        let checkBtn = false;
 
         function insertRow(data) {
             rowNumber++;
@@ -117,8 +116,6 @@
         }
 
         function addEventListeners(){
-            if (checkBtn) return;
-
             document.querySelectorAll('.delete_client_btn').forEach((btn) => {
                 btn.addEventListener('click', ({target}) => {
                     const docID = target.getAttribute('data-firebase-doc');
@@ -133,8 +130,6 @@
                     window.open('../editar/index.html#'+docID);
                 });
             });
-
-            checkBtn = true;
         }
 
         function fillTable(){
